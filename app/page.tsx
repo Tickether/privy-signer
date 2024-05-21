@@ -1,27 +1,9 @@
-'use client'
-
-import Image from 'next/image';
-import styles from './page.module.css';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { redirect } from 'next/navigation'
-
-
+import { Login } from "@/components/login/Login";
 
 export default function Home() {
-  const router = useRouter() 
-  const link = `http://localhost:3000/?key=CSHRMP-PUBK_mO86nNyK8gOwP5Ho&coin=USDC&network=BASE`
-  
-  useEffect(()=>{
-    console.log(window.location.href)
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-
-    console.log(params.get('key'))
-    //redirect(`/post/`)
-  })
   return (
-    <>
-    </>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <Login/>
+    </main>
   );
 }
