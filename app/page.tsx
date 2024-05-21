@@ -1,9 +1,9 @@
 'use client'
 
-import Image from "next/image";
-import styles from "./page.module.css";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import Image from 'next/image';
+import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { redirect } from 'next/navigation'
 
 

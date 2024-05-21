@@ -1,8 +1,7 @@
-import { encodeFunctionData, erc20Abi } from "viem"
-import { fabricFactoryABI } from "../abi/fabricFactoryABI"
-import { fabricFactory } from "../constants/addresses";
+import { encodeFunctionData, erc20Abi } from 'viem'
+import { fabricFactoryABI } from '../abi/fabricFactoryABI'
 
-export function Crowdfund (
+export function CrowdfundData (
     recipient: `0x${string}`,
     minGoal: bigint,
     maxGoal: bigint,
@@ -27,10 +26,6 @@ export function Crowdfund (
             (erc20TokenAddr),
         ]
     })
-    // Build the transactions
-    const crowdfundTx = {
-        to: fabricFactory,
-        data: crowdfundData    
-    };
-    return crowdfundTx
+    
+    return crowdfundData
 }

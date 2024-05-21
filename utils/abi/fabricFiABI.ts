@@ -1,7 +1,7 @@
 export const fabricFiABI = [
     {
         inputs: [
-            { name: "amount", type: "uint256" }, 
+            { name: 'amount', type: 'uint256' }, 
         ],
         name: 'contributeERC20',
         outputs: [],
