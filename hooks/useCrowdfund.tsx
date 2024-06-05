@@ -2,7 +2,7 @@ import { getWalletClient } from '@/utils/client';
 import { fabricFactory } from '@/utils/constants/addresses';
 import { CrowdfundData } from '@/utils/fabric/crowdfund';
 import { useState } from 'react'
-import { parseUnits } from 'viem';
+import { Chain, parseUnits } from 'viem';
 
 export const useCrowdfund = () => {
     const [loadingCrowdfund, setLoading] = useState<boolean>(false)
@@ -17,10 +17,11 @@ export const useCrowdfund = () => {
         duration: number,
         erc20TokenAddr: `0x${string}`,
         decimals: number,
+        chain: Chain
     )=>{
         setLoading(true)
         // Build the transactions
-        const privyWalletClient = await getWalletClient();
+        const privyWalletClient = await getWalletClient(chain);
         const [address] = await privyWalletClient.getAddresses()
         privyWalletClient.sendTransaction({
             account: address,
