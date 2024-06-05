@@ -17,13 +17,13 @@ export const useCrowdfund = () => {
         duration: number,
         erc20TokenAddr: `0x${string}`,
         decimals: number,
-        chain: Chain
+        chain: number
     )=>{
         setLoading(true)
         // Build the transactions
         const privyWalletClient = await getWalletClient(chain);
         const [address] = await privyWalletClient.getAddresses()
-        privyWalletClient.sendTransaction({
+        await privyWalletClient.sendTransaction({
             account: address,
             to: fabricFactory,
             data: CrowdfundData(
@@ -36,7 +36,8 @@ export const useCrowdfund = () => {
                 (duration),
                 (erc20TokenAddr),
             ),
-            value: BigInt(0)  
+            value: BigInt(0),
+            chain: privyWalletClient.chain
         })
         setLoading(false)
     }

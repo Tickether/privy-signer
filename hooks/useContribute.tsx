@@ -7,16 +7,18 @@ import { Chain, parseEther } from 'viem';
 export const useContribute = () => {
     const [loadingContribute, setLoading] = useState<boolean>(false)
     
-    const Contribute = async(amount: string, chain: Chain)=>{
+    const Contribute = async(amount: string, chain: number)=>{
         setLoading(true)
         // Build the transactions
         const privyWalletClient = await getWalletClient(chain);
         const [address] = await privyWalletClient.getAddresses()
-        privyWalletClient.sendTransaction({
+        
+        await privyWalletClient.sendTransaction({
             account: address,
             to: fabricFi,
             data: ContributeData(),
-            value: parseEther(amount)
+            value: parseEther(amount),
+            chain: privyWalletClient.chain
         })
         setLoading(false)
     }

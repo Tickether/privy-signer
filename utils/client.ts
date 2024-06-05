@@ -1,5 +1,6 @@
 import { useWallets } from '@privy-io/react-auth';
-import { createWalletClient, custom, Chain } from 'viem'
+import { createWalletClient, custom, Chain, WalletClient } from 'viem'
+import { base, sepolia } from 'viem/chains';
 
 
 export const getPrivyWallet = async(chain: number) =>{
@@ -9,12 +10,24 @@ export const getPrivyWallet = async(chain: number) =>{
   return wallet
 }
 
-export const getWalletClient = async(chain: Chain) => {
-  const wallet = await getPrivyWallet(chain.id)
+export const getWalletClient = async(chain: number) => {
+  const wallet = await getPrivyWallet(chain)
   const provider = await wallet?.getEthereumProvider();
-  const walletClient = createWalletClient({
-    chain: chain,
-    transport: custom(provider!),
-  });
-  return walletClient
+  let walletClient = undefined
+  if (chain == base.id) {
+    const baseWalletClient = createWalletClient({
+      chain: base,
+      transport: custom(provider!),
+    });
+    walletClient = baseWalletClient
+  }
+  if (chain == sepolia.id) {
+    const sepoliaWalletClient = createWalletClient({
+      chain: sepolia,
+      transport: custom(provider!),
+    });
+    walletClient = sepoliaWalletClient
+  }
+  return walletClient as WalletClient
+  
 }
