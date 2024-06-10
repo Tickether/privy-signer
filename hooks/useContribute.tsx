@@ -1,26 +1,29 @@
-import { getWalletClient } from '@/utils/client';
-import { fabricFi } from '@/utils/constants/addresses';
+
 import { ContributeData } from '@/utils/fabric/contribute';
 import { useState } from 'react'
-import { Chain, parseEther } from 'viem';
+import { parseEther } from 'viem';
+import { useClient } from './useClient';
 
 export const useContribute = () => {
     const [loadingContribute, setLoading] = useState<boolean>(false)
+    const { getWalletClient } = useClient()
     
-    const Contribute = async(amount: string, chain: number)=>{
+    const Contribute = async(amount: string, chain: number, to: `0x${string}`)=>{
         setLoading(true)
+        
         // Build the transactions
         const privyWalletClient = await getWalletClient(chain);
-        const [address] = await privyWalletClient.getAddresses()
+        const [address] = await privyWalletClient!.getAddresses()
         
-        await privyWalletClient.sendTransaction({
+        const tx = await privyWalletClient!.sendTransaction({
             account: address,
-            to: fabricFi,
+            to: to,
             data: ContributeData(),
             value: parseEther(amount),
-            chain: privyWalletClient.chain
+            chain: privyWalletClient!.chain
         })
         setLoading(false)
+        console.log(tx)
     }
     return { loadingContribute, Contribute }
 }

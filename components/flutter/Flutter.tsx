@@ -1,8 +1,14 @@
+'use client'
+
 import { Logout } from "@/components/logout/Logout"
+import { useCrowdfund } from "@/hooks/useCrowdfund";
+import { Button } from "../ui/button";
 
 
 
 export function Flutter() {
+
+    const {Crowdfund} = useCrowdfund()
 
     
     return (
@@ -11,6 +17,25 @@ export function Flutter() {
             <div className='w-full h-full relative'>
                 <div className="absolute cursor-pointer p-5 top-0 right-0">
                     <Logout/>
+                </div>
+                <div className="absolute cursor-pointer p-5 top-0 right-0">
+                    <Button
+                        onClick={()=>{
+                            Crowdfund(
+                                '0.01',
+                                '1',
+                                '0.000000000001',
+                                '0.001',
+                                0,
+                                1800,
+                                '0x0000000000000000000000000000000000000000',
+                                18,
+                                11155111,
+                            )
+                        }}
+                    >
+                        DOit
+                    </Button>
                 </div>
                 <div className='h-full w-full'>
                     <iframe

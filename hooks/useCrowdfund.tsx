@@ -1,14 +1,16 @@
-import { getWalletClient } from '@/utils/client';
-import { fabricFactory } from '@/utils/constants/addresses';
+
+import { fabricFactoryBase, fabricFactorySepolia } from '@/utils/constants/addresses';
 import { CrowdfundData } from '@/utils/fabric/crowdfund';
 import { useState } from 'react'
-import { Chain, parseUnits } from 'viem';
+import { parseUnits } from 'viem';
+import { base, sepolia } from 'viem/chains';
+import { useClient } from './useClient';
 
 export const useCrowdfund = () => {
     const [loadingCrowdfund, setLoading] = useState<boolean>(false)
+    const { getWalletClient } = useClient()
 
     const Crowdfund = async(
-        recipient: `0x${string}`,
         minGoal: string,
         maxGoal: string,
         minContribution: string,
@@ -20,14 +22,22 @@ export const useCrowdfund = () => {
         chain: number
     )=>{
         setLoading(true)
+        let  fabricFactory
+        if (chain == sepolia.id) {
+            fabricFactory = fabricFactorySepolia
+        }
+        if (chain == base.id) {
+            fabricFactory = fabricFactoryBase
+        }
         // Build the transactions
         const privyWalletClient = await getWalletClient(chain);
-        const [address] = await privyWalletClient.getAddresses()
-        await privyWalletClient.sendTransaction({
+        const [address] = await privyWalletClient!.getAddresses()
+        console.log(address)
+        const tx = await privyWalletClient!.sendTransaction({
             account: address,
             to: fabricFactory,
             data: CrowdfundData(
-                (recipient),
+                (address),
                 (parseUnits(minGoal, decimals)),
                 (parseUnits(maxGoal, decimals)),
                 (parseUnits(minContribution, decimals)),
@@ -37,8 +47,9 @@ export const useCrowdfund = () => {
                 (erc20TokenAddr),
             ),
             value: BigInt(0),
-            chain: privyWalletClient.chain
+            chain: privyWalletClient!.chain
         })
+        console.log(tx)
         setLoading(false)
     }
     return { loadingCrowdfund, Crowdfund }
