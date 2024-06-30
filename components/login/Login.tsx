@@ -25,16 +25,8 @@ export function Login() {
 
     
     return (
-        <Button onClick={Login} className='w-48 rounded-full bg-blue-600 cursor-pointer z-20 hover:bg-green-400'>
-            <div className='flex w-full justify-between'>
-              <p>Login</p>
-              <Image
-                src='./LeftArrow.svg'
-                alt=''
-                width={20}
-                height={20}
-              />
-            </div>
+        <Button onClick={Login} className='w-96 max-md:w-80 h-12 rounded-xl bg-white text-black cursor-pointer text-lg font-bold z-20 hover:bg-green-400'>
+            Get started
         </Button>
     );
 }
